@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>张三 · 个人主页</title>
+  <!-- 字体图标库 (Font Awesome) 用于社交图标 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    /* ----- 全局重置 & 颜色变量 (支持浅色/深色模式) ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-color: #f5f7fa;
+      --card-bg: #ffffff;
+      --text-color: #1e2a3a;
+      --subtext-color: #5b6f7e;
+      --border-color: #e2e8f0;
+      --shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+      --radius: 20px;
+      --transition: 0.3s ease;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #121820;
+        --card-bg: #1e293b;
+        --text-color: #edf2f7;
+        --subtext-color: #a0b4c8;
+        --border-color: #2d3a4f;
+        --shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+      }
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      transition: background var(--transition), color var(--transition);
+      line-height: 1.6;
+    }
+
+    /* ----- 卡片容器 (毛玻璃效果) ----- */
+    .profile-card {
+      max-width: 680px;
+      width: 100%;
+      background: var(--card-bg);
+      backdrop-filter: blur(2px);
+      border-radius: var(--radius);
+      padding: 48px 40px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+      transition: background var(--transition), box-shadow var(--transition), border var(--transition);
+      text-align: center;
+    }
+
+    /* ----- 头像 ----- */
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--border-color);
+      margin-bottom: 20px;
+      transition: border var(--transition);
+      /* 用 emoji 作为占位头像 —— 你随时可以替换成真实图片链接 */
+      background: #3b82f6;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 54px;
+      color: #fff;
+      user-select: none;
+    }
+
+    /* ----- 姓名 & 头衔 ----- */
+    .name {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+
+    .title {
+      font-size: 18px;
+      color: var(--subtext-color);
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+
+    /* ----- 个人简介 ----- */
+    .bio {
+      font-size: 16px;
+      color: var(--subtext-color);
+      max-width: 500px;
+      margin: 0 auto 28px auto;
+      padding: 0 4px;
+      border-left: 3px solid #3b82f6;
+      padding-left: 18px;
+      text-align: left;
+    }
+
+    /* ----- 社交图标网格 ----- */
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px 20px;
+      margin-top: 8px;
+      margin-bottom: 28px;
+    }
+
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      color: var(--subtext-color);
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 40px;
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      transition: all var(--transition);
+    }
+
+    .social-links a i {
+      font-size: 18px;
+      width: 22px;
+      text-align: center;
+    }
+
+    .social-links a:hover {
+      color: #3b82f6;
+      border-color: #3b82f6;
+      background: rgba(59, 130, 246, 0.06);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(59, 130, 246, 0.12);
+    }
+
+    /* ----- 底部版权 & 技术栈 ----- */
+    .footer-note {
+      font-size: 14px;
+      color: var(--subtext-color);
+      border-top: 1px solid var(--border-color);
+      padding-top: 22px;
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px 24px;
+    }
+
+    .footer-note span i {
+      margin-right: 6px;
+      opacity: 0.7;
+    }
+
+    .badge {
+      background: var(--bg-color);
+      padding: 2px 12px;
+      border-radius: 30px;
+      font-size: 13px;
+      border: 1px solid var(--border-color);
+    }
+
+    /* ----- 响应式适配 (手机) ----- */
+    @media (max-width: 500px) {
+      .profile-card {
+        padding: 32px 20px;
+      }
+      .avatar {
+        width: 96px;
+        height: 96px;
+        font-size: 42px;
+      }
+      .name {
+        font-size: 26px;
+      }
+      .bio {
+        text-align: left;
+        padding-left: 14px;
+        font-size: 15px;
+      }
+      .social-links a {
+        font-size: 14px;
+        padding: 4px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="profile-card">
+
+  <!-- 👤 头像 (可替换为你的图片) -->
+  <div class="avatar" aria-label="头像">
+    <!-- 默认显示 emoji 头像，你可以换成 <img src="你的头像链接.jpg" alt="头像"> 并删掉这个 div 里的文字 -->
+    👨‍💻
+  </div>
+
+  <!-- 👋 姓名 & 头衔 -->
+  <h1 class="name">张三</h1>
+  <div class="title">全栈开发者 · 内容创作者</div>
+
+  <!-- 📝 个人简介 —— 直接修改下方文字 -->
+  <p class="bio">
+    <i class="fas fa-quote-left" style="color:#3b82f6; margin-right:6px; opacity:0.6;"></i>
+    热爱用技术解决问题，乐于分享知识。目前专注于 Web 开发与开源工具链，相信简洁优雅的设计能让产品更有温度。
+  </p>
+
+  <!-- 🔗 社交链接 —— 替换 # 为你的真实地址，可增删 -->
+  <div class="social-links">
+    <a href="#" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+    <a href="#" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+    <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+    <a href="#" target="_blank"><i class="fas fa-envelope"></i> 邮箱</a>
+    <a href="#" target="_blank"><i class="fas fa-rss"></i> 博客</a>
+  </div>
+
+  <!-- 📌 底部信息 -->
+  <div class="footer-note">
+    <span><i class="fas fa-location-dot"></i> 中国 · 西安</span>
+    <span><i class="fas fa-code"></i> 用 <span class="badge">HTML + CSS</span> 手工打造</span>
+    <span><i class="fas fa-moon"></i> 自动适配深色模式</span>
+  </div>
+
+</div>
+
+</body>
+</html>
